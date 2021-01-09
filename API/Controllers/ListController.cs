@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Dtos.Lsts;
+using AutoMapper;
 using Core.Entities;
 using Core.Enums;
 using Core.Interfaces;
@@ -13,15 +15,18 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class ListController: ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly IGenericRepository<LstDefault> _lstDefaultRepo;
         private readonly IGenericRepository<LstDog> _lstDogRepo;
         private readonly IGenericRepository<LstOrder> _lstOrderRepo;
 
         public ListController(
+            IMapper mapper,
             IGenericRepository<LstDefault> lstDefaultRepo,
             IGenericRepository<LstDog> lstDogRepo, 
             IGenericRepository<LstOrder> lstOrderRepo)
         {
+            _mapper = mapper;
             _lstDefaultRepo = lstDefaultRepo;
             _lstDogRepo = lstDogRepo;
             _lstOrderRepo = lstOrderRepo;
@@ -73,6 +78,15 @@ namespace API.Controllers
                 return Ok();
             }
             
+        }
+
+        [HttpGet("getLstDog/{id}")]
+        public async Task<ActionResult<LstDogToReturnDto>> GetLstDog(Guid id)
+        {
+            var spec = new LstDogWithChildrenSpecification(id);
+            var lstDog = await _lstDogRepo.GetEntityWithSpec(spec);
+            var lstDogToReturnDto = _mapper.Map<LstDog, LstDogToReturnDto>(lstDog);
+            return Ok(lstDogToReturnDto);
         }
 
         [HttpGet]
