@@ -1,0 +1,29 @@
+[
+    {
+        "Id": "b07501ce-1ee3-45f4-90dc-244a285135d4",
+        "Name": "Приказы",
+        "LstTypeItem": 0,
+        "LstTypeClass": 3,
+        "IsDeleted": false,
+        "ParentId": null,
+        "OrderCode": "OrderCode_000"
+    },
+    {
+        "Id": "fdacc556-775d-4b86-9d07-8bffe667bded",
+        "Name": "Приказы 001",
+        "LstTypeItem": 1,
+        "LstTypeClass": 3,
+        "IsDeleted": false,
+        "ParentId": "b07501ce-1ee3-45f4-90dc-244a285135d4",
+        "OrderCode": "OrderCode_001"
+    },
+    {
+        "Id": "fa293097-d807-48d4-9d54-a6f2525d3f95",
+        "Name": "Приказы 002",
+        "LstTypeItem": 1,
+        "LstTypeClass": 3,
+        "IsDeleted": false,
+        "ParentId": "b07501ce-1ee3-45f4-90dc-244a285135d4",
+        "OrderCode": "OrderCode_002"
+    }
+]
