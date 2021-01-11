@@ -11,9 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class DepartmentsController: ControllerBase
+    // [ApiController]
+    // [Route("api/[controller]")]
+    public class DepartmentsController : BaseApiController
     {
         private readonly IGenericRepository<Department> _depRepo;
         public DepartmentsController(IGenericRepository<Department> depRepo)
