@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Errors;
+using API.Helpers;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specification;
@@ -21,10 +22,18 @@ namespace API.Controllers
         }
 
         [HttpGet("getAllWithSpec")]
-        public async Task<ActionResult<IReadOnlyList<Department>>> GetAllWithSpec()
+        public async Task<ActionResult<Pagination<Department>>> GetAllWithSpec([FromQuery]DepartmentSpecParams departmentParams)
         {
-            var spec = new DepartmentWithUsersSpecification();
-            return Ok(await _depRepo.GetListWithSpec(spec));
+            var spec = new DepartmentWithUsersSpecification(departmentParams);
+            var countSpec = new DepartmentWithUsersCountSpecification(departmentParams);
+            var totalItems = await _depRepo.CountAsync(countSpec);
+
+            var data = await _depRepo.GetListWithSpec(spec);
+            
+
+
+            // return Ok(await _depRepo.GetListWithSpec(spec));
+            return Ok(new Pagination<Department>(departmentParams.PageIndex, departmentParams.PageSize, totalItems, data));
         }
 
         [HttpGet("getDepWithSpec/{id}")]
