@@ -9,14 +9,30 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20210108191514_newInitDb")]
-    partial class newInitDb
+    [Migration("20210111060741_FirstInit")]
+    partial class FirstInit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.9");
+
+            modelBuilder.Entity("Core.Entities.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
+                });
 
             modelBuilder.Entity("Core.Entities.LstDefault", b =>
                 {
@@ -121,6 +137,25 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("LstOrders");
                 });
 
+            modelBuilder.Entity("Core.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("DepartmentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Core.Entities.LstDefault", b =>
                 {
                     b.HasOne("Core.Entities.LstDefault", "Parent")
@@ -140,6 +175,13 @@ namespace Infrastructure.Data.Migrations
                     b.HasOne("Core.Entities.LstOrder", "Parent")
                         .WithMany("Childrens")
                         .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("Core.Entities.User", b =>
+                {
+                    b.HasOne("Core.Entities.Department", "Department")
+                        .WithMany("Users")
+                        .HasForeignKey("DepartmentId");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,6 +16,22 @@ namespace Infrastructure.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.9");
 
+            modelBuilder.Entity("Core.Entities.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("Core.Entities.LstDefault", b =>
                 {
                     b.Property<Guid>("Id")
@@ -119,6 +135,25 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("LstOrders");
                 });
 
+            modelBuilder.Entity("Core.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("DepartmentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Core.Entities.LstDefault", b =>
                 {
                     b.HasOne("Core.Entities.LstDefault", "Parent")
@@ -138,6 +173,13 @@ namespace Infrastructure.Data.Migrations
                     b.HasOne("Core.Entities.LstOrder", "Parent")
                         .WithMany("Childrens")
                         .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("Core.Entities.User", b =>
+                {
+                    b.HasOne("Core.Entities.Department", "Department")
+                        .WithMany("Users")
+                        .HasForeignKey("DepartmentId");
                 });
 #pragma warning restore 612, 618
         }

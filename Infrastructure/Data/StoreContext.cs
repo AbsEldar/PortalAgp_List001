@@ -13,6 +13,8 @@ namespace Infrastructure.Data
         public DbSet<LstDefault> LstDefaults { get; set; }
         public DbSet<LstDog> LstDogs { get; set; }
         public DbSet<LstOrder> LstOrders { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Department> Departments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
