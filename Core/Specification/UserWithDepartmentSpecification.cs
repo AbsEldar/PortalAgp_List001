@@ -6,7 +6,9 @@ namespace Core.Specification
     public class UserWithDepartmentSpecification: BaseSpecification<User>
     {
         public UserWithDepartmentSpecification(UserSpecParams userSpecParams) 
-            :base(x => (string.IsNullOrEmpty(userSpecParams.Search) || x.Name.ToLower().Contains(userSpecParams.Search)))
+            :base(x => (string.IsNullOrEmpty(userSpecParams.Search) || x.Name.ToLower().Contains(userSpecParams.Search))
+            && (!userSpecParams.DepartmentId.HasValue || x.DepartmentId == userSpecParams.DepartmentId)
+            )
         {
             AddInclude(x => x.Department);
             ApplyPaging(userSpecParams.PageSize * (userSpecParams.PageIndex -1), userSpecParams.PageSize);

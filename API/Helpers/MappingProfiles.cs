@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using API.Dtos.Department;
 using API.Dtos.Lsts;
 using API.Dtos.User;
 using AutoMapper;
@@ -15,6 +16,10 @@ namespace API.Helpers
 
             CreateMap<User, UserToReturnDto>()
             .ForMember(d => d.DepartmentName, o => o.MapFrom(s => s.Department.Name));
+
+            CreateMap<Department, DepartmentToReturnDto>();
+            // CreateMap<IReadOnlyList<Department>, IReadOnlyList<DepartmentToReturnDto>>();
+            
 
             // CreateMap<IReadOnlyList<User>, IReadOnlyList<UserToReturnDto>>();
         }

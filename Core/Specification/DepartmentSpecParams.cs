@@ -3,8 +3,8 @@ namespace Core.Specification
     public class DepartmentSpecParams
     {
         private const int MaxPageSize = 50;
-        public int PageIndex { get; set; } = 1;
-        private int _pagSize = 6;
+        public int PageIndex { get; set; } = 0;
+        private int _pagSize = 10;
         public int PageSize 
         {
             get => _pagSize; 

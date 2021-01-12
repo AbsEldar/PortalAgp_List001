@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Dtos.Department;
+using API.Dtos.User;
 using API.Errors;
 using API.Helpers;
+using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specification;
@@ -15,25 +18,37 @@ namespace API.Controllers
     // [Route("api/[controller]")]
     public class DepartmentsController : BaseApiController
     {
+        private readonly IMapper _mapper;
         private readonly IGenericRepository<Department> _depRepo;
-        public DepartmentsController(IGenericRepository<Department> depRepo)
+        public DepartmentsController(IMapper mapper, IGenericRepository<Department> depRepo)
         {
+            _mapper = mapper;
             _depRepo = depRepo;
         }
 
+
+        [HttpGet("getAllDepDtos")]
+        public async Task<ActionResult<IReadOnlyList<DepartmentToReturnDto>>> GetAllDepsDto()
+        {
+            var deps = await _depRepo.GetListAsync();
+            var data = _mapper.Map<IReadOnlyList<Department>, IReadOnlyList<DepartmentToReturnDto>>(deps);
+            return Ok(data);
+        }
+
         [HttpGet("getAllWithSpec")]
-        public async Task<ActionResult<Pagination<Department>>> GetAllWithSpec([FromQuery]DepartmentSpecParams departmentParams)
+        public async Task<ActionResult<Pagination<DepartmentToReturnDto>>> GetAllWithSpec([FromQuery]DepartmentSpecParams departmentParams)
         {
             var spec = new DepartmentWithUsersSpecification(departmentParams);
             var countSpec = new DepartmentWithUsersCountSpecification(departmentParams);
             var totalItems = await _depRepo.CountAsync(countSpec);
 
-            var data = await _depRepo.GetListWithSpec(spec);
-            
+            var deps = await _depRepo.GetListWithSpec(spec);
+            var data = _mapper.Map<IReadOnlyList<Department>, IReadOnlyList<DepartmentToReturnDto>>(deps);
+            // var data = await _depRepo.GetListWithSpec(spec);
 
 
             // return Ok(await _depRepo.GetListWithSpec(spec));
-            return Ok(new Pagination<Department>(departmentParams.PageIndex, departmentParams.PageSize, totalItems, data));
+            return Ok(new Pagination<DepartmentToReturnDto>(departmentParams.PageIndex, departmentParams.PageSize, totalItems, data));
         }
 
         [HttpGet("getDepWithSpec/{id}")]
