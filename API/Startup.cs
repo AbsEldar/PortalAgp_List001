@@ -40,6 +40,9 @@ namespace API
             services.AddAutoMapper(typeof(MappingProfiles));
 
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+
+
+
             services.AddControllers().AddNewtonsoftJson(options =>
                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
@@ -47,11 +50,30 @@ namespace API
             services.AddApplicationServices();
             services.AddSwaggerDocumentation();
 
+            // services.AddCors();
+
+//             services.AddCors(options =>
+// {
+//             options.AddPolicy("CorsPolicy",
+//                 builder =>
+//                 {
+//                     builder.WithOrigins("https://localhost:4200")
+//                     .WithHeaders(new[] { "authorization", "content-type", "accept" })
+//                     .WithMethods(new[] { "GET", "POST", "PUT", "DELETE", "OPTIONS" })
+//                 ;
+//                 });
+// });
+
             services.AddCors(opt => {
                 opt.AddPolicy("CorsPolicy", policy => {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                    policy.AllowAnyHeader().AllowCredentials().AllowAnyMethod().WithOrigins("https://localhost:4200/", "https://localhost:4200");
                 });
             });
+
+
+
+            // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
 
             // services.AddSwaggerGen(c =>
             // {
@@ -79,10 +101,15 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseStaticFiles();
 
+
+            // app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+
+           app.UseCors("CorsPolicy");
             app.UseAuthorization();
 
-            app.UseCors("CorsPolicy");
+
 
             // app.UseSwagger();
             // app.UseSwaggerUI(c => {
@@ -90,6 +117,11 @@ namespace API
             // });
 
             app.UseSwaggerDocumentation();
+
+            // 
+            // app.UseCors(
+            //     options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
+            // ); //This needs to set everything allowed
 
             app.UseEndpoints(endpoints =>
             {
