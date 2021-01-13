@@ -1,6 +1,6 @@
 export class ShopParams {
     departmentId = '';
     sort = 'name';
-    pageNumber = 0;
+    pageNumber = 1;
     pageSize = 100;
 }
