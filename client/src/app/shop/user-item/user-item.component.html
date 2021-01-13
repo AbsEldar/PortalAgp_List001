@@ -1,5 +1,5 @@
 <div class="card h-100 shadow-sm">
-    <!-- <img src={{user.pictureUrl}} alt="{{product.name}}" class="img-fluid bg-light"> -->
+    <img  routerLink="/shop/{{user.id}}" src={{user.pictureUrl}} alt="{{user.name}}" class="img-fluid bg-light">
       <div class="card-body d-flex flex-column">
         <a routerLink="/shop/{{user.id}}">
           <h6 class="text-uppercase">{{user.name}}</h6>

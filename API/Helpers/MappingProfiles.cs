@@ -15,7 +15,8 @@ namespace API.Helpers
             CreateMap<IReadOnlyList<LstDog>, IReadOnlyList<LstDogToReturnDto>>();
 
             CreateMap<User, UserToReturnDto>()
-            .ForMember(d => d.DepartmentName, o => o.MapFrom(s => s.Department.Name));
+            .ForMember(d => d.DepartmentName, o => o.MapFrom(s => s.Department.Name))
+            .ForMember(d => d.PictureUrl, o => o.MapFrom<UserUrlResolver>());
 
             CreateMap<Department, DepartmentToReturnDto>();
             // CreateMap<IReadOnlyList<Department>, IReadOnlyList<DepartmentToReturnDto>>();

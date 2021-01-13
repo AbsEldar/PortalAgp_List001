@@ -101,13 +101,17 @@ namespace Infrastructure.Data
                         else if(i>= 9000)
                             depId = dep9_id;
                         
-
-
+                        // random pictureUrl
+                        string[] pictures = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", 
+                                                "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
+                        Random rand = new Random();
+                        int index = rand.Next(pictures.Length);
 
                         var user = new User()
                         {
                             Id = Guid.NewGuid(),
                             Name = "User_" + i,
+                            PictureUrl = $"images/famous/{pictures[index]}.jpg",
                             DepartmentId = depId
                         };
                         context.Users.Add(user);

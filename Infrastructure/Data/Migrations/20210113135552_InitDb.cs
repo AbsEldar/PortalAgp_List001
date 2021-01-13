@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Data.Migrations
 {
-    public partial class FirstInit : Migration
+    public partial class InitDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -96,6 +96,7 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
+                    PictureUrl = table.Column<string>(nullable: true),
                     DepartmentId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>

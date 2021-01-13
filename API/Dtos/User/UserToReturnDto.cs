@@ -6,6 +6,7 @@ namespace API.Dtos.User
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public string PictureUrl { get; set; }
         public string DepartmentName { get; set; }
     }
 }
