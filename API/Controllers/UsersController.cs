@@ -37,5 +37,13 @@ namespace API.Controllers
             // return Ok(await _depRepo.GetListWithSpec(spec));
             return Ok(new Pagination<UserToReturnDto>(userParams.PageIndex, userParams.PageSize, totalItems, data));
         }
+
+        [HttpGet("getUser/{id}")]
+        public async Task<ActionResult<UserToReturnDto>> GetUserToReturnDto(Guid id)
+        {
+            var spec = new UserWithDepartmentOnlySpecification(id);
+            var user = await _userRepo.GetEntityWithSpec(spec);
+            return Ok(_mapper.Map<User, UserToReturnDto>(user));
+        }
     }
 }

@@ -4,6 +4,7 @@ import { IDepartment } from '../shared/models/IDepartment';
 import { IPagination } from '../shared/models/IPagination';
 import { map, delay } from 'rxjs/operators';
 import { ShopParams } from '../shared/models/ShopParams';
+import { IUser } from '../shared/models/IUser';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,10 @@ export class ShopService {
         return response.body;
       })
     );
+  }
+
+  getUser(id: string) {
+    return this.http.get<IUser>(this.baseUrl + 'users/getUser/' + id);
   }
 
   getDepartments() {
