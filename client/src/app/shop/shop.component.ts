@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IDepartment } from '../shared/models/IDepartment';
 import { IUser } from '../shared/models/IUser';
 import { ShopParams } from '../shared/models/ShopParams';
@@ -11,6 +11,7 @@ import { ShopService } from './shop.service';
 })
 export class ShopComponent implements OnInit {
 
+  @ViewChild('search', {static: true}) searchTerm: ElementRef;
   users: IUser[];
   departments: IDepartment[];
   // departmentIdSelected = '';
@@ -52,6 +53,7 @@ export class ShopComponent implements OnInit {
 
   onDepartmentSelected(departmentId: string) {
     this.shopParams.departmentId = departmentId;
+    this.shopParams.pageNumber = 1;
     this.getUsers();
   }
   onSortSelected(sort: string) {
@@ -60,7 +62,23 @@ export class ShopComponent implements OnInit {
   }
 
   onPageChanged(event: any) {
-    this.shopParams.pageNumber = event;
+    if(this.shopParams.pageNumber !== event) {
+      this.shopParams.pageNumber = event;
+      this.getUsers();
+    }
+    
+  }
+
+  onSearch() {
+    this.shopParams.search = this.searchTerm.nativeElement.value;
+    this.shopParams.pageNumber = 1;
+    this.getUsers();
+  }
+ 
+  onReset()
+  {
+    this.searchTerm.nativeElement.value = '';
+    this.shopParams = new ShopParams();
     this.getUsers();
   }
 
