@@ -4,6 +4,7 @@ import { ShopComponent } from './shop.component';
 import { UserItemComponent } from './user-item/user-item.component';
 import { SharedModule } from '../shared/shared.module';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -11,7 +12,8 @@ import { UserDetailsComponent } from './user-details/user-details.component';
   declarations: [ShopComponent, UserItemComponent, UserDetailsComponent],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    RouterModule
   ],
   exports: [ShopComponent]
 })

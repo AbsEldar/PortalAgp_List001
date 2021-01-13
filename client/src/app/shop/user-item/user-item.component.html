@@ -1,16 +1,16 @@
 <div class="card h-100 shadow-sm">
     <!-- <img src={{user.pictureUrl}} alt="{{product.name}}" class="img-fluid bg-light"> -->
       <div class="card-body d-flex flex-column">
-        <a href="#">
+        <a routerLink="/shop/{{user.id}}">
           <h6 class="text-uppercase">{{user.name}}</h6>
         </a>
         <span class="mb-2">{{user.departmentName}}</span>
         
         
-          <!-- <div class="btn-group mt-auto">
+          <div class="btn-group mt-auto">
             <button type="button" class="btn btn-outline-secondary fa fa-shopping-cart mr-2"></button>
-            <button type="button" class="btn btn-outline-secondary">Edit</button>
-          </div> -->
+            <button routerLink="/shop/{{user.id}}"  type="button" class="btn btn-outline-secondary">View</button>
+          </div>
           
         
       </div>
