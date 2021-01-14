@@ -11,6 +11,9 @@ import { environment } from 'src/environments/environment';
 export class TestErrorComponent implements OnInit {
 
   baseUrl = environment.apiUrl;
+  validationErrors: any;
+
+
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
@@ -41,10 +44,11 @@ export class TestErrorComponent implements OnInit {
   }
 
   get400ValidationError() {
-    this.http.get(this.baseUrl + 'users/xxxxxxxxx').subscribe(response => {
+    this.http.get(this.baseUrl + 'users/1').subscribe(response => {
       console.log(response);
     }, error => {
       console.log(error);
+      this.validationErrors = error.errors;
     });
   }
 
