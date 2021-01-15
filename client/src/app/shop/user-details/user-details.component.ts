@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IUser } from 'src/app/shared/models/IUser';
+import { BreadcrumbService } from 'xng-breadcrumb';
 import { ShopService } from '../shop.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { ShopService } from '../shop.service';
 export class UserDetailsComponent implements OnInit {
 
   user: IUser;
-  constructor(private shopService: ShopService, private activatedRoute: ActivatedRoute) { }
+  constructor(private shopService: ShopService, private activatedRoute: ActivatedRoute, private bcService: BreadcrumbService) { }
 
   ngOnInit() {
     this.loadUser();
@@ -20,6 +21,7 @@ export class UserDetailsComponent implements OnInit {
   loadUser() {
     this.shopService.getUser(this.activatedRoute.snapshot.paramMap.get('id')).subscribe(user => {
       this.user = user;
+      this.bcService.set('@userDetails', user.name);
     }, error => {
       console.log(error);
     })
