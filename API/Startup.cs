@@ -36,41 +36,46 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
             // services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             services.AddAutoMapper(typeof(MappingProfiles));
 
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
 
-            services.AddSingleton<ConnectionMultiplexer>(c => {
-                var configuration = ConfigurationOptions.Parse(_config.GetConnectionString("Redis"), true);
-                return ConnectionMultiplexer.Connect(configuration);
-            });
-
+            
             services.AddControllers().AddNewtonsoftJson(options =>
                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+
+            services.AddSingleton<IConnectionMultiplexer>(c =>
+            {
+                var configuration = ConfigurationOptions.Parse(_config
+                    .GetConnectionString("Redis"), true);
+                return ConnectionMultiplexer.Connect(configuration);
+            });
 
             services.AddApplicationServices();
             services.AddSwaggerDocumentation();
 
             // services.AddCors();
 
-//             services.AddCors(options =>
-// {
-//             options.AddPolicy("CorsPolicy",
-//                 builder =>
-//                 {
-//                     builder.WithOrigins("https://localhost:4200")
-//                     .WithHeaders(new[] { "authorization", "content-type", "accept" })
-//                     .WithMethods(new[] { "GET", "POST", "PUT", "DELETE", "OPTIONS" })
-//                 ;
-//                 });
-// });
+            //             services.AddCors(options =>
+            // {
+            //             options.AddPolicy("CorsPolicy",
+            //                 builder =>
+            //                 {
+            //                     builder.WithOrigins("https://localhost:4200")
+            //                     .WithHeaders(new[] { "authorization", "content-type", "accept" })
+            //                     .WithMethods(new[] { "GET", "POST", "PUT", "DELETE", "OPTIONS" })
+            //                 ;
+            //                 });
+            // });
 
-            services.AddCors(opt => {
-                opt.AddPolicy("CorsPolicy", policy => {
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
                     policy.AllowAnyHeader().AllowCredentials().AllowAnyMethod().WithOrigins("https://localhost:4200/", "https://localhost:4200");
                 });
             });
@@ -111,7 +116,7 @@ namespace API
 
             // app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
 
-           app.UseCors("CorsPolicy");
+            app.UseCors("CorsPolicy");
             app.UseAuthorization();
 
 
