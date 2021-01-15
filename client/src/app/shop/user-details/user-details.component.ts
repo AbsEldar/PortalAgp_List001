@@ -12,7 +12,9 @@ import { ShopService } from '../shop.service';
 export class UserDetailsComponent implements OnInit {
 
   user: IUser;
-  constructor(private shopService: ShopService, private activatedRoute: ActivatedRoute, private bcService: BreadcrumbService) { }
+  constructor(private shopService: ShopService, private activatedRoute: ActivatedRoute, private bcService: BreadcrumbService) { 
+    this.bcService.set('@userDetails', '');
+  }
 
   ngOnInit() {
     this.loadUser();

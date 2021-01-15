@@ -1,83 +1,98 @@
 <div class="container mt-5">
-    <div class="row">
- 
-      <section class="col-3">
+  <div class="row">
+    <section class="col-3">
+      <ng-container *ngIf="departments">
         <h5 class="text-warning ml-3">Sort</h5>
-        <select class="custom-select mb-3" (change)="onSortSelected($event.target.value)">
-            <option *ngFor="let sort of sortOptions" [value]="sort.value">
-              {{sort.name}}
-            </option>
-            
-          </select>
- 
+        <select
+          class="custom-select mb-3"
+          (change)="onSortSelected($event.target.value)"
+        >
+          <option *ngFor="let sort of sortOptions" [value]="sort.value">
+            {{ sort.name }}
+          </option>
+        </select>
+
         <h5 class="text-warning ml-3">Departments</h5>
         <ul class="list-group my-3">
-          <li class="list-group-item" 
+          <li
+            class="list-group-item"
             [class.active]="'' === this.shopParams.departmentId"
             [value]=""
             (click)="onDepartmentSelected('')"
-            >
-                All
-              </li>
-            <li class="list-group-item" *ngFor="let dep of departments"
+          >
+            All
+          </li>
+          <li
+            class="list-group-item"
+            *ngFor="let dep of departments"
             [class.active]="dep.id === this.shopParams.departmentId"
             [value]="dep.id"
             (click)="onDepartmentSelected(dep.id)"
-            >
-                {{dep.name}}
-              </li>
+          >
+            {{ dep.name }}
+          </li>
         </ul>
- 
-        <h5 class="text-warning ml-3">Types</h5>
+
+        <!-- <h5 class="text-warning ml-3">Types</h5>
         <ul class="list-group my-3">
           <li class="list-group-item active">Cras justo odio</li>
           <li class="list-group-item">Dapibus ac facilisis in</li>
           <li class="list-group-item">Morbi leo risus</li>
           <li class="list-group-item">Porta ac consectetur ac</li>
           <li class="list-group-item">Vestibulum at eros</li>
-        </ul>
-      </section>
- 
-      <section class="col-9">
-        <div class="d-flex justify-content-between align-items-center pb-2">
-          <app-paging-header
+        </ul> -->
+      </ng-container>
+    </section>
+
+    <section class="col-9">
+      <div class="d-flex justify-content-between align-items-center pb-2">
+        <app-paging-header
           [totalCount]="totalCount"
           [pageSize]="this.shopParams.pageSize"
           [pageNumber]="this.shopParams.pageNumber"
         >
         </app-paging-header>
-        <div class="form-inline mt-2">
-          <input #search (keyup.enter)="onSearch()" class = "form-control mr-2" type="text" style="width:300px" placeholder="Search" type="text">
-          <button (click)="onSearch()" class="btn btn-outline-primary my-2">Search</button>
-          <button (click)="onReset()" class="btn btn-outline-success my-2 ml-2">Reset</button>
+        <div class="form-inline mt-2" *ngIf="users">
+          <input
+            #search
+            (keyup.enter)="onSearch()"
+            class="form-control mr-2"
+            type="text"
+            style="width: 300px"
+            placeholder="Search"
+            type="text"
+          />
+          <button (click)="onSearch()" class="btn btn-outline-primary my-2">
+            Search
+          </button>
+          <button (click)="onReset()" class="btn btn-outline-success my-2 ml-2">
+            Reset
+          </button>
         </div>
-        </div>
+      </div>
 
-        <div class="d-flex justify-content-center"  *ngIf="totalCount > 0">
-            
-
-            <app-pager
-            [pageSize]="shopParams.pageSize"
-            [totalCount]="totalCount"
-            (pageChanged)="onPageChanged($event)">
-             </app-pager>
-
-          </div>
-        
-        <div class="row">
-          <div class="col-4 mb-4" *ngFor="let user of users">
-            <app-user-item [user]="user"></app-user-item>
-          </div>
-        </div>
-        <div class="d-flex justify-content-center"  *ngIf="totalCount > 0">
-          
-          <app-pager
+      <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
+        <app-pager
           [pageSize]="shopParams.pageSize"
           [totalCount]="totalCount"
-          (pageChanged)="onPageChanged($event)">
-           </app-pager>
+          (pageChanged)="onPageChanged($event)"
+        >
+        </app-pager>
+      </div>
 
-          </div>
-      </section>
-    </div>
+      <div class="row">
+        <div class="col-4 mb-4" *ngFor="let user of users">
+          <app-user-item [user]="user"></app-user-item>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
+        <app-pager
+          [pageSize]="shopParams.pageSize"
+          [totalCount]="totalCount"
+          (pageChanged)="onPageChanged($event)"
+        >
+        </app-pager>
+      </div>
+    </section>
   </div>
+</div>
