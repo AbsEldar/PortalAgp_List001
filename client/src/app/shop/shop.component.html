@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mt-5">
     <div class="row">
  
       <section class="col-3">
@@ -12,6 +12,13 @@
  
         <h5 class="text-warning ml-3">Departments</h5>
         <ul class="list-group my-3">
+          <li class="list-group-item" 
+            [class.active]="'' === this.shopParams.departmentId"
+            [value]=""
+            (click)="onDepartmentSelected('')"
+            >
+                All
+              </li>
             <li class="list-group-item" *ngFor="let dep of departments"
             [class.active]="dep.id === this.shopParams.departmentId"
             [value]="dep.id"
