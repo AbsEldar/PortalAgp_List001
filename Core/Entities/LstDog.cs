@@ -9,5 +9,7 @@ namespace Core.Entities
         public virtual ICollection<LstDog> Childrens {get; set;}
         public virtual LstDog Parent {get; set;}
         public Guid? ParentId { get; set; }
+
+        public virtual ICollection<Department> Departments { get; set; }
     }
 }

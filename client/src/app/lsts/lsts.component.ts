@@ -18,6 +18,7 @@ export class LstsComponent implements OnInit {
     private router: Router,
     private bcService: BreadcrumbService) { 
       this.bcService.set('@lstDetails', '');
+      this.getRootLsts();
   }
 
   ngOnInit() {
@@ -26,7 +27,8 @@ export class LstsComponent implements OnInit {
 
   goToChildren(id: string) {
     this.lsts = [];
-   this.router.navigateByUrl('lsts/' + id);
+  //  this.router.navigateByUrl('lsts/' + id);
+    this.getLstById(id);
   }
 
   getRootLsts() {
@@ -43,5 +45,13 @@ export class LstsComponent implements OnInit {
     }
     
   }
+
+  getLstById(id: string) {
+    this.lstsService.getLstsById(id).subscribe((lsts: ILst) => {
+      this.lsts = lsts.childrens;
+      this.bcService.set('@lstDetails', lsts.name);
+    })
+  }
+  
 
 }

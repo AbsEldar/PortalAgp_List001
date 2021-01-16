@@ -8,18 +8,6 @@ namespace Infrastructure.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Departments",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Departments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LstDefaults",
                 columns: table => new
                 {
@@ -91,6 +79,25 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    LstDogId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Departments_LstDogs_LstDogId",
+                        column: x => x.LstDogId,
+                        principalTable: "LstDogs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -109,6 +116,11 @@ namespace Infrastructure.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Departments_LstDogId",
+                table: "Departments",
+                column: "LstDogId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LstDefaults_ParentId",
@@ -137,9 +149,6 @@ namespace Infrastructure.Data.Migrations
                 name: "LstDefaults");
 
             migrationBuilder.DropTable(
-                name: "LstDogs");
-
-            migrationBuilder.DropTable(
                 name: "LstOrders");
 
             migrationBuilder.DropTable(
@@ -147,6 +156,9 @@ namespace Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Departments");
+
+            migrationBuilder.DropTable(
+                name: "LstDogs");
         }
     }
 }

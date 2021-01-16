@@ -13,5 +13,6 @@ namespace Core.Entities
         public bool IsDeleted { get; set; } = false;
         
         
+        
     }
 }

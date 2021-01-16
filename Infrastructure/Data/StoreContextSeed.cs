@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Core.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Data
@@ -13,34 +14,7 @@ namespace Infrastructure.Data
     {
         public static async Task SyncAsync(StoreContext context, ILoggerFactory loggerFactory)
         {
-            try
-            {
-                if(!context.LstDogs.Any())
-                {
-                    var dogData = File.ReadAllText("../Infrastructure/Data/SeedData/lstDogs.json");
-                    var dogs = JsonSerializer.Deserialize<IReadOnlyList<LstDog>>(dogData);
-
-                    foreach (var dog in dogs)
-                    {
-                        context.LstDogs.Add(dog);
-                    }
-                    await context.SaveChangesAsync();
-                }
-
-                if(!context.LstOrders.Any())
-                {
-                    var orderData = File.ReadAllText("../Infrastructure/Data/SeedData/lstOrders.json");
-                    var orders = JsonSerializer.Deserialize<IReadOnlyList<LstOrder>>(orderData);
-
-                    foreach (var order in orders)
-                    {
-                        context.LstOrders.Add(order);
-                    }
-                    await context.SaveChangesAsync();
-                }
-
-
-                var dep0_id = new Guid("f0653f91-b36a-4f5a-8ced-f75f1549136d"); 
+              var dep0_id = new Guid("f0653f91-b36a-4f5a-8ced-f75f1549136d"); 
                 var dep1_id = new Guid("6ffeb5ad-dba6-47f1-9faf-6225e491672d"); 
                 var dep2_id = new Guid("8aa63e96-fb2c-4d1c-9b83-860baca42760"); 
                 var dep3_id = new Guid("8981e3df-92c9-43ba-95be-c5047f3d613d"); 
@@ -50,16 +24,67 @@ namespace Infrastructure.Data
                 var dep7_id = new Guid("0b69bad2-7069-476b-8545-315bd32d9844"); 
                 var dep8_id = new Guid("084411b7-992c-4a54-8e56-866b2fec9097"); 
                 var dep9_id = new Guid("5df52d05-f362-4aa2-9d75-b6086304a60b"); 
+            try
+            {
+                
+                if(!context.LstDogs.Any())
+                {
+                    var dogData = File.ReadAllText("../Infrastructure/Data/SeedData/lstDogs.json");
+                    var dogs = JsonSerializer.Deserialize<IReadOnlyList<LstDog>>(dogData);
+
+                    foreach (var dog in dogs)
+                    {
+                      
+                        context.LstDogs.Add(dog);
+                    }
+                    await context.SaveChangesAsync();
+                }
+
+                // if(!context.LstOrders.Any())
+                // {
+                //     var orderData = File.ReadAllText("../Infrastructure/Data/SeedData/lstOrders.json");
+                //     var orders = JsonSerializer.Deserialize<IReadOnlyList<LstOrder>>(orderData);
+
+                //     foreach (var order in orders)
+                //     {
+                //         context.LstOrders.Add(order);
+                //     }
+                //     await context.SaveChangesAsync();
+                // }
+
+
+                  // if(dog.Id == Guid.Parse("32aa7f77-7247-46cf-a8f8-9869226ac069"))
+                        // {
+                        //     dog.Departments.Add(await context.Departments.FirstOrDefaultAsync(x => x.Id == dep0_id));
+                        // } 
+                        // else if(dog.Id == Guid.Parse("57a7b240-aa77-4153-b610-ce4ca2c5e0ec"))
+                        // {
+                        //     dog.Departments.Add(await context.Departments.FirstOrDefaultAsync(x => x.Id == dep1_id));
+                        // } 
+                        // else if(dog.Id == Guid.Parse("35684bc5-d365-4c19-b4e4-e947854a23e8"))
+                        // {
+                        //     dog.Departments.Add(await context.Departments.FirstOrDefaultAsync(x => x.Id == dep2_id));
+                        // } 
+                        // else if(dog.Id == Guid.Parse("743fe5fe-8637-4193-ab69-79620103e354"))
+                        // {
+                        //     dog.Departments.Add(await context.Departments.FirstOrDefaultAsync(x => x.Id == dep3_id));
+                        // } 
+                        // else if(dog.Id == Guid.Parse("a7e8faf7-87cc-4bc3-a1fb-fdd63e96cc99"))
+                        // {
+                        //     dog.Departments.Add(await context.Departments.FirstOrDefaultAsync(x => x.Id == dep4_id));
+                        // } 
+
+              
 
                 if(!context.Departments.Any())
                 {
                     
                    var depList = new List<Department>() {
-                        new Department() {Id= dep0_id, Name = "Dep_000"},
-                        new Department() {Id= dep1_id, Name = "Dep_001"},
-                        new Department() {Id= dep2_id, Name = "Dep_002"},
-                        new Department() {Id= dep3_id, Name = "Dep_003"},
-                        new Department() {Id= dep4_id, Name = "Dep_004"},
+                        new Department() {Id= dep0_id, Name = "Dep_000", LstDogId = Guid.Parse("32aa7f77-7247-46cf-a8f8-9869226ac069")},
+                        new Department() {Id= dep1_id, Name = "Dep_001", LstDogId =  Guid.Parse("57a7b240-aa77-4153-b610-ce4ca2c5e0ec")},
+                        new Department() {Id= dep2_id, Name = "Dep_002", LstDogId =  Guid.Parse("35684bc5-d365-4c19-b4e4-e947854a23e8")},
+                        new Department() {Id= dep3_id, Name = "Dep_003", LstDogId =  Guid.Parse("743fe5fe-8637-4193-ab69-79620103e354")},
+                        new Department() {Id= dep4_id, Name = "Dep_004", LstDogId =  Guid.Parse("a7e8faf7-87cc-4bc3-a1fb-fdd63e96cc99")},
                         new Department() {Id= dep5_id, Name = "Dep_005"},
                         new Department() {Id= dep6_id, Name = "Dep_006"},
                         new Department() {Id= dep7_id, Name = "Dep_007"},
@@ -118,6 +143,7 @@ namespace Infrastructure.Data
                     }
                     await context.SaveChangesAsync();
                 }
+
 
                 
             }

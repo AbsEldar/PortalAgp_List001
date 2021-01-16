@@ -22,12 +22,17 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("LstDogId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LstDogId");
 
                     b.ToTable("Departments");
                 });
@@ -155,6 +160,13 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Core.Entities.Department", b =>
+                {
+                    b.HasOne("Core.Entities.LstDog", "LstDog")
+                        .WithMany("Departments")
+                        .HasForeignKey("LstDogId");
                 });
 
             modelBuilder.Entity("Core.Entities.LstDefault", b =>

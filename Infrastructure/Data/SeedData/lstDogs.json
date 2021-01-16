@@ -10,7 +10,7 @@
     },
     {
         "Id": "57a7b240-aa77-4153-b610-ce4ca2c5e0ec",
-        "Name": "2019",
+        "Name": "2020",
         "LstTypeItem": 1,
         "LstTypeClass": 2,
         "IsDeleted": false,
@@ -19,11 +19,29 @@
     },
     {
         "Id": "35684bc5-d365-4c19-b4e4-e947854a23e8",
-        "Name": "2020",
+        "Name": "Расход",
         "LstTypeItem": 1,
         "LstTypeClass": 2,
         "IsDeleted": false,
-        "ParentId": "32aa7f77-7247-46cf-a8f8-9869226ac069",
+        "ParentId": "57a7b240-aa77-4153-b610-ce4ca2c5e0ec",
+        "DogAuthor": "Admin"
+    },
+    {
+        "Id": "743fe5fe-8637-4193-ab69-79620103e354",
+        "Name": "IT Department",
+        "LstTypeItem": 1,
+        "LstTypeClass": 2,
+        "IsDeleted": false,
+        "ParentId": "35684bc5-d365-4c19-b4e4-e947854a23e8",
+        "DogAuthor": "Admin"
+    },
+    {
+        "Id": "a7e8faf7-87cc-4bc3-a1fb-fdd63e96cc99",
+        "Name": "Sector",
+        "LstTypeItem": 1,
+        "LstTypeClass": 2,
+        "IsDeleted": false,
+        "ParentId": "743fe5fe-8637-4193-ab69-79620103e354",
         "DogAuthor": "Admin"
     }
 ]
