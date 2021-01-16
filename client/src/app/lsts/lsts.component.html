@@ -1,0 +1,22 @@
+<div class="container mt-3">
+    <table  class="table table-hover">
+        <thead >
+          <tr>
+           
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- routerLink="/lsts/{{lst.id}}" routerLinkActive="router-link-active" -->
+          <tr *ngFor="let lst of lsts" (click)="goToChildren(lst.id)" style="cursor:pointer;">
+            
+            <td>{{lst.id}}</td>
+            <td>{{lst.name}}</td>
+            
+          </tr>
+          
+        </tbody>
+      </table>
+      <pre>{{lsts | json}}</pre>
+</div>
