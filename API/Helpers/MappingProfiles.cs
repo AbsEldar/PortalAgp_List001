@@ -18,7 +18,11 @@ namespace API.Helpers
             .ForMember(d => d.DepartmentName, o => o.MapFrom(s => s.Department.Name))
             .ForMember(d => d.PictureUrl, o => o.MapFrom<UserUrlResolver>());
 
+            CreateMap<User, UserForAccessLstDto>();
+
             CreateMap<Department, DepartmentToReturnDto>();
+
+            CreateMap<LstDog, LstBreadCrambDto>();
             // CreateMap<IReadOnlyList<Department>, IReadOnlyList<DepartmentToReturnDto>>();
             
 

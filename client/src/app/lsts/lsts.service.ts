@@ -18,4 +18,8 @@ export class LstsService {
   getLstsById(id: string) {
     return this.http.get<ILst>(this.baseUrl + 'list/getLstDog/' + id)
   }
+
+  getLstBcById(id: string) {
+    return this.http.get<ILst[]>(this.baseUrl + 'list/getBreadCrambForList/' + id)
+  }
 }

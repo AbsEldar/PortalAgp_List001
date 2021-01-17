@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using API.Dtos.Lsts;
+using API.Dtos.User;
 using AutoMapper;
 using Core.Entities;
 using Core.Enums;
 using Core.Interfaces;
 using Core.Specification;
 using Microsoft.AspNetCore.Mvc;
+using StackExchange.Redis;
 
 namespace API.Controllers
 {
@@ -15,18 +19,26 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class ListController: ControllerBase
     {
+
+        private readonly IDatabase _database;
         private readonly IMapper _mapper;
+
+        private readonly ILstsRepository _lstsRepository;
         private readonly IGenericRepository<LstDefault> _lstDefaultRepo;
         private readonly IGenericRepository<LstDog> _lstDogRepo;
         private readonly IGenericRepository<LstOrder> _lstOrderRepo;
 
         public ListController(
+            IConnectionMultiplexer redis,
             IMapper mapper,
+            ILstsRepository lstsRepository,
             IGenericRepository<LstDefault> lstDefaultRepo,
             IGenericRepository<LstDog> lstDogRepo, 
             IGenericRepository<LstOrder> lstOrderRepo)
         {
+            _database = redis.GetDatabase(); 
             _mapper = mapper;
+            _lstsRepository = lstsRepository;
             _lstDefaultRepo = lstDefaultRepo;
             _lstDogRepo = lstDogRepo;
             _lstOrderRepo = lstOrderRepo;
@@ -94,5 +106,62 @@ namespace API.Controllers
         {
             return Ok(await _lstDogRepo.GetListAsync());   
         }
+
+        [HttpGet("getAndUpdateList/{id}")]
+        public async Task<ActionResult<IReadOnlyList<LstBreadCrambDto>>> GetAndUpdateList(Guid id)
+        {
+            var lsts = await _lstsRepository.GetBreadCrambForList(id);
+            var lstsBc = _mapper.Map<IReadOnlyList<LstDog>, IReadOnlyList<LstBreadCrambDto>>(lsts);
+
+             var created = await _database.StringSetAsync($"lst-bc-{id}", 
+                JsonSerializer.Serialize(lstsBc.Reverse()));
+
+            return Ok(lstsBc.Reverse());
+        }
+
+
+        [HttpGet("getBreadCrambForList/{id}")]
+        public async Task<ActionResult<IReadOnlyList<LstBreadCrambDto>>> GetBreadCrambForList(Guid id)
+        {
+            var data = await _database.StringGetAsync($"lst-bc-{id}");
+            // var retData = data.IsNullOrEmpty ? await GetAndUpdateList(id) : JsonSerializer.Deserialize<List<LstBreadCrambDto>>(data);
+            if(data.IsNullOrEmpty) {
+                return await GetAndUpdateList(id);
+            } else {
+                var retData = JsonSerializer.Deserialize<List<LstBreadCrambDto>>(data);
+                return Ok(retData);
+            }
+
+            // return Ok(retData);
+
+        }
+
+        [HttpGet("getAndUpdateAccessUsersForList/{id}")]
+        public async Task<ActionResult<IReadOnlyList<UserForAccessLstDto>>> GetAndUpdateAccessUsersForList(Guid id)
+        {
+            var users = await _lstsRepository.GetAccessUserForList(id);
+            var usersAccess = _mapper.Map<IReadOnlyList<User>, IReadOnlyList<UserForAccessLstDto>>(users);
+
+             var created = await _database.StringSetAsync($"lst-access-{id}", 
+                JsonSerializer.Serialize(usersAccess));
+
+            return Ok(usersAccess);
+        }
+
+        [HttpGet("getAccessUsersForList/{id}")]
+        public async Task<ActionResult<IReadOnlyList<UserForAccessLstDto>>> GetAccessUsersForList(Guid id)
+        {
+            var data = await _database.StringGetAsync($"lst-access-{id}");
+            
+            if(data.IsNullOrEmpty) {
+                return await GetAndUpdateAccessUsersForList(id);
+            } else {
+                var retData = JsonSerializer.Deserialize<List<UserForAccessLstDto>>(data);
+                return Ok(retData);
+            }
+        }
+
+
+        
     }
 }
