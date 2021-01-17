@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { BreadcrumbService } from "xng-breadcrumb";
 import { ILst } from "../shared/models/ILst";
 import { ILstBc } from "../shared/models/ILstBc";
+import { IUserLstAccess } from "../shared/models/IUserLstAccess";
 import { LstsService } from "./lsts.service";
 
 @Component({
@@ -13,6 +14,8 @@ import { LstsService } from "./lsts.service";
 export class LstsComponent implements OnInit {
   lsts: ILst[];
   lstBcs: ILstBc[];
+  usersAccess: IUserLstAccess[];
+
   constructor(
     private lstsService: LstsService,
     private activatedRoute: ActivatedRoute,
@@ -33,6 +36,7 @@ export class LstsComponent implements OnInit {
     
       this.getLstById(lst.id);
       this.getLstBcById(lst.id);
+      this.getAccessUsersForList(lst.id);
     
   }
 
@@ -61,5 +65,11 @@ export class LstsComponent implements OnInit {
     this.lstsService.getLstBcById(id).subscribe((lstBcs: ILstBc[]) => {
       this.lstBcs = lstBcs;
     });
+  }
+
+  getAccessUsersForList(id: string) {
+    this.lstsService.getAccessUsersForList(id).subscribe((users: IUserLstAccess[]) => {
+      this.usersAccess = users;
+    })
   }
 }

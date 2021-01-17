@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ILst } from '../shared/models/ILst';
+import { IUserLstAccess } from '../shared/models/IUserLstAccess';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,9 @@ export class LstsService {
 
   getLstBcById(id: string) {
     return this.http.get<ILst[]>(this.baseUrl + 'list/getBreadCrambForList/' + id)
+  }
+
+  getAccessUsersForList(id: string) {
+    return this.http.get<IUserLstAccess[]>(this.baseUrl + 'list/getAccessUsersForList/' + id)
   }
 }
