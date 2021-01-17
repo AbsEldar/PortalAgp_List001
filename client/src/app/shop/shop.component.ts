@@ -21,9 +21,9 @@ export class ShopComponent implements OnInit {
   totalCount: number;
 
   sortOptions = [
-    {name: 'Alphabetical', value: 'name'},
-    {name: 'Имя: Low to High', value: 'nameAsc'},
-    {name: 'Имя: High to Low', value: 'nameDesc'}
+    // {name: 'По алфавиту', value: 'name'},
+    {name: 'Имя: по возрастанию', value: 'nameAsc'},
+    {name: 'Имя: по убыванию', value: 'nameDesc'}
   ];
   constructor(private shopService: ShopService) { }
 

@@ -1,5 +1,8 @@
 <div class="container mt-3">
-  <span *ngFor="let lstBc of lstBcs">{{lstBc.name}} |</span>
+  <span *ngFor="let lstBc of lstBcs; let i = index; first as isFirst; last as isLast">
+    <b *ngIf="isLast">{{lstBc.name}}</b>
+    <i *ngIf="!isLast">{{lstBc.name}} |</i>
+  </span>
     <table  class="table table-hover">
         <thead >
           <tr>

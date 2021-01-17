@@ -30,7 +30,8 @@ namespace API.Controllers
         [HttpGet("getAllDepDtos")]
         public async Task<ActionResult<IReadOnlyList<DepartmentToReturnDto>>> GetAllDepsDto()
         {
-            var deps = await _depRepo.GetListAsync();
+            var spec = new DepsDtoForList();
+            var deps = await _depRepo.GetListWithSpec(spec);
             var data = _mapper.Map<IReadOnlyList<Department>, IReadOnlyList<DepartmentToReturnDto>>(deps);
             return Ok(data);
         }
