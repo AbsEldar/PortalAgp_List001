@@ -8,7 +8,7 @@ import { IUserLstAccess } from '../shared/models/IUserLstAccess';
 })
 export class LstsService {
 
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = 'http://localhost:5000/api/';
 
   constructor(private http: HttpClient) { }
 
